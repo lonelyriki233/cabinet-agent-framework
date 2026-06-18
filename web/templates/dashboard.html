@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cabinet Agent Framework</title>
+  <script src="https://unpkg.com/vue@3.5.13/dist/vue.global.prod.js"></script>
+  <style>
+    :root{
+      --bg:#050507;--bg2:#08090a;--panel:#0f1011;--panel2:#15161a;--panel3:#1a1b20;
+      --text:#f7f8f8;--muted:#8a8f98;--muted2:#62666d;--line:rgba(255,255,255,.08);
+      --line2:rgba(255,255,255,.05);--accent:#7170ff;--accent2:#a78bfa;--good:#10b981;--warn:#f59e0b;--bad:#fb7185;
+      --shadow:0 24px 80px rgba(0,0,0,.36);--r:18px;--mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    }
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0%,rgba(113,112,255,.18),transparent 34%),radial-gradient(circle at 86% 12%,rgba(56,189,248,.12),transparent 30%),linear-gradient(180deg,#050507,#08090a 44%,#050507);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;font-feature-settings:"cv01","ss03";}
+    a{color:inherit;text-decoration:none}.app{min-height:100vh}.shell{display:grid;grid-template-columns:280px 1fr;min-height:100vh}.side{position:sticky;top:0;height:100vh;padding:22px 16px;border-right:1px solid var(--line2);background:linear-gradient(180deg,rgba(15,16,17,.92),rgba(5,5,7,.78));backdrop-filter:blur(18px);overflow:auto}.brand{display:flex;gap:12px;align-items:center;margin-bottom:22px}.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#7170ff,#38bdf8 58%,#10b981);box-shadow:0 0 0 1px rgba(255,255,255,.14),0 16px 48px rgba(113,112,255,.3)}.brand h1{font-size:15px;margin:0;font-weight:590;letter-spacing:-.2px}.brand p{font-size:12px;color:var(--muted);margin:2px 0 0}.nav{display:flex;flex-direction:column;gap:6px}.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#d0d6e0;border:1px solid transparent;border-radius:12px;padding:10px 11px;font-size:13px;font-weight:510}.nav a:hover{background:rgba(255,255,255,.04);border-color:var(--line2)}.nav a.active{background:rgba(113,112,255,.16);border-color:rgba(113,112,255,.34);color:#fff}.nav small{color:var(--muted2);font-family:var(--mono);font-size:10px}.side-block{margin-top:20px;padding:14px;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:16px}.side-block b{font-size:12px}.side-block p{font-size:12px;color:var(--muted);line-height:1.55;margin:8px 0 0}.main{padding:28px clamp(20px,3vw,46px) 56px;overflow:hidden}.hero{position:relative;min-height:320px;border:1px solid var(--line);border-radius:28px;padding:30px;background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),radial-gradient(circle at 77% 18%,rgba(167,139,250,.22),transparent 34%),radial-gradient(circle at 38% 85%,rgba(34,197,94,.12),transparent 28%);box-shadow:var(--shadow);overflow:hidden}.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(180deg,rgba(0,0,0,.55),transparent 80%)}.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr .8fr;gap:24px}.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(113,112,255,.28);background:rgba(113,112,255,.12);color:#d9d8ff;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:510}.dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 16px var(--good)}.hero h2{font-size:clamp(42px,6vw,76px);line-height:.94;letter-spacing:-1.5px;margin:18px 0 16px;font-weight:510;max-width:920px}.hero p{color:#d0d6e0;font-size:16px;line-height:1.65;margin:0;max-width:740px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.btn{border:1px solid var(--line);background:rgba(255,255,255,.04);color:#e8e9ff;border-radius:12px;padding:10px 13px;font-size:13px;font-weight:590;cursor:pointer}.btn.primary{background:#5e6ad2;border-color:#7776ff;color:#fff}.btn:hover{filter:brightness(1.12)}.orbital{display:grid;gap:12px;align-content:end}.orbit-card{border:1px solid var(--line);border-radius:18px;background:rgba(5,5,7,.52);backdrop-filter:blur(14px);padding:14px}.orbit-card b{display:block;font-size:13px;margin-bottom:6px}.orbit-card span{font-size:12px;color:var(--muted);line-height:1.5}.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:18px 0}.stat{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:15px;min-height:86px}.stat .k{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.1em}.stat .v{font-size:28px;font-weight:590;margin-top:8px;letter-spacing:-.6px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:30px 0 14px}.section-head h3{font-size:25px;margin:0;font-weight:510;letter-spacing:-.5px}.section-head p{color:var(--muted);font-size:13px;margin:4px 0 0}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{grid-column:span 4;background:linear-gradient(180deg,rgba(255,255,255,.046),rgba(255,255,255,.022));border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.16)}.card.large{grid-column:span 8}.card.full{grid-column:1/-1}.card.half{grid-column:span 6}.card h4{margin:0 0 9px;font-size:16px;font-weight:590}.muted{color:var(--muted)}.small{font-size:12px}.mono{font-family:var(--mono)}.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:999px;padding:4px 8px;font-size:11px;color:#d0d6e0}.pills{display:flex;gap:7px;flex-wrap:wrap}.content-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.content-card{position:relative;min-height:210px;border:1px solid var(--line);border-radius:22px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));overflow:hidden}.content-card:before{content:"";position:absolute;top:-40px;right:-60px;width:160px;height:160px;border-radius:50%;background:var(--accent-local,#7170ff);opacity:.14;filter:blur(4px)}.content-card h4{position:relative;margin:0 0 10px;font-size:18px}.content-card .excerpt{position:relative;color:#c9ced8;font-size:13px;line-height:1.65;white-space:pre-wrap;max-height:118px;overflow:hidden}.empty{border:1px dashed rgba(255,255,255,.16);border-radius:22px;padding:26px;background:rgba(255,255,255,.018);text-align:center;color:var(--muted)}.task-row{display:grid;grid-template-columns:64px minmax(0,1fr) minmax(220px,.75fr);gap:12px;align-items:start;border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:16px;padding:13px;margin-bottom:10px}.task-row .mono{font-size:11px;overflow-wrap:anywhere;color:#b9c3ff}.task-row>div{min-width:0}.task-row .pills{justify-content:flex-end}.task-row .pill{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.status{border-radius:999px;padding:4px 8px;font-size:11px;font-weight:590;background:rgba(245,158,11,.16);color:#fcd34d;border:1px solid rgba(245,158,11,.25)}.status.done{background:rgba(16,185,129,.15);color:#86efac;border-color:rgba(16,185,129,.28)}.status.failed,.status.blocked{background:rgba(251,113,133,.14);color:#fda4af;border-color:rgba(251,113,133,.28)}.table{width:100%;border-collapse:collapse}.table th,.table td{border-bottom:1px solid var(--line2);padding:10px 8px;text-align:left;vertical-align:top;font-size:13px}.table th{color:#d0d6e0;font-weight:590}.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.step{border:1px solid var(--line);border-radius:16px;padding:13px;background:rgba(255,255,255,.028)}.step b{display:block;font-size:13px;margin-bottom:6px}.code{white-space:pre-wrap;word-break:break-word;max-height:420px;overflow:auto;background:#07080a;border:1px solid var(--line);border-radius:14px;padding:13px;color:#d0d6e0;font-family:var(--mono);font-size:12px}.search{display:flex;gap:10px;flex-wrap:wrap}.input{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:12px;color:var(--text);padding:10px 12px;min-width:220px}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.crumb{color:var(--muted);font-size:13px}.mobile-nav{display:none}.fallback{padding:24px;color:#fff}.vue-ready .fallback{display:none}@media(max-width:1100px){.shell{grid-template-columns:1fr}.side{display:none}.mobile-nav{display:flex;position:sticky;top:0;z-index:9;background:rgba(5,5,7,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:10px;overflow:auto;gap:8px}.mobile-nav a{white-space:nowrap}.main{padding:16px}.hero-inner{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.card,.card.large,.card.half{grid-column:1/-1}.hero{padding:22px}.hero h2{font-size:42px}}
+  </style>
+</head>
+<body>
+<div id="app" class="app">
+  <div class="fallback">正在加载 Vue3 创作中枢界面……</div>
+  <div class="mobile-nav">
+    <a v-for="item in nav" :href="item.href" class="btn" :class="{primary: section===item.key}">${ item.label }</a>
+  </div>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand"><div class="mark"></div><div><h1>Cabinet Agent Framework</h1><p>Portable Agent Runtime</p></div></div>
+      <nav class="nav"><a v-for="item in nav" :href="item.href" :class="{active: section===item.key}"><span>${ item.label }</span><small>${ item.key }</small></a></nav>
+      <div class="side-block"><b>当前原则</b><p>协议优先：先任务包、记忆、skills、上下文、hooks、SDK/adapters；再接具体宿主和工具。</p></div>
+      <div class="side-block"><b>运行状态</b><p>${ taskStats.total } tasks · ${ hooks.length } hooks · ${ contentTotal } content files</p></div>
+    </aside>
+    <main class="main">
+      <div class="topbar"><div class="crumb">${ currentTitle } / ${ currentHint }</div><button class="btn" @click="refresh">刷新 runtime</button></div>
+
+      <template v-if="section==='overview'">
+        <section class="hero">
+          <div class="hero-inner">
+            <div>
+              <span class="eyebrow"><i class="dot"></i> Framework command center · Vue3</span>
+              <h2>把 agent 框架做成可移植、可扩展、可展示的作品。</h2>
+              <p>这里不只是任务监控，而是框架工程驾驶舱：记忆、skills、上下文单元、hooks、MCP/RAG、headless、SDK/adapters、dashboard 和子工程模板在同一张桌面推进。</p>
+              <div class="hero-actions"><a class="btn primary" href="/memory">进入记忆系统</a><a class="btn" href="/tasks">查看 Agent 工作</a><a class="btn" href="/sdk-adapters">SDK / Adapters</a></div>
+            </div>
+            <div class="orbital">
+              <div class="orbit-card"><b>框架模块层</b><span>记忆、skills、上下文、hooks、MCP、headless、SDK、模板都以文件和协议沉淀。</span></div>
+              <div class="orbit-card"><b>Agent 层</b><span>worker 领取任务，产出 prompt、日志、审计和归档记录。</span></div>
+              <div class="orbit-card"><b>扩展层</b><span>后续接更多宿主、工具、MCP 与项目模板，但先由抽象协议锁住可移植性。</span></div>
+            </div>
+          </div>
+        </section>
+        <stats-row :task-stats="taskStats" :content-total="contentTotal" :hook-count="hooks.length"></stats-row>
+        <div class="section-head"><div><h3>框架模块内容页</h3><p>每个模块都读取本地目录，不是静态假页面。</p></div></div>
+        <div class="content-grid"><domain-card v-for="d in contentDomains" :key="d.key" :domain="d"></domain-card></div>
+        <div class="section-head"><div><h3>Agent 工作态势</h3><p>最近任务、worker 分布、生命周期事件。</p></div></div>
+        <div class="grid"><div class="card large"><h4>最近任务</h4><task-list :items="tasks.slice(-6).reverse()"></task-list></div><div class="card"><h4>Worker 分布</h4><div class="pills"><span class="pill" v-for="(v,k) in taskDistribution">${ k } · ${ v }</span></div><div class="code" style="margin-top:12px">${ summary }</div></div></div>
+      </template>
+
+      <template v-else-if="isContentSection">
+        <content-page :domain="moduleContent[section]" :section="section"></content-page>
+      </template>
+
+      <template v-else-if="section==='agents'">
+        <page-title :title="currentTitle" :hint="currentHint"></page-title><div class="grid"><div class="card full"><h4>Worker / Bureau</h4><table class="table"><tr><th>Worker</th><th>Bureau</th><th>职责</th><th>任务</th></tr><tr v-for="a in agents"><td class="mono">${a.worker}</td><td>${a.bureau}<div class="muted small">${a.bureau_desc}</div></td><td>${a.role}</td><td>${a.tasks_total} total / ${a.tasks_ready} ready / ${a.tasks_done} done</td></tr></table></div><div class="card full"><h4>参议位</h4><div class="content-grid"><div class="content-card" v-for="(v,k) in councillors"><h4>${k}</h4><div class="excerpt">${v}</div></div></div></div></div>
+      </template>
+
+      <template v-else-if="section==='tasks'">
+        <page-title :title="currentTitle" :hint="currentHint"></page-title><template v-if="selectedTask"><task-report :task="selectedTask"></task-report></template><template v-else><div class="grid"><div class="card full"><h4>任务流</h4><task-list :items="tasks"></task-list></div></div></template>
+      </template>
+
+      <template v-else-if="section==='hooks'">
+        <page-title :title="currentTitle" :hint="currentHint"></page-title><div class="card full"><h4>生命周期事件</h4><table class="table"><tr><th>时间</th><th>事件</th><th>结果</th><th>任务</th><th>详情</th></tr><tr v-for="h in hooks.slice().reverse()"><td class="muted small">${h.ts}</td><td>${h.event}</td><td><span class="status" :class="h.result">${h.result}</span></td><td class="mono">${h.task_id}</td><td><pre class="code">${JSON.stringify(h.details,null,2)}</pre></td></tr></table></div>
+      </template>
+
+      <template v-else-if="section==='archive'">
+        <page-title :title="currentTitle" :hint="currentHint"></page-title><div class="grid"><div class="card half"><h4>档案搜索</h4><div class="search"><input class="input" v-model="search.q" placeholder="关键词"><input class="input" v-model="search.bureau" placeholder="bureau 可空"><button class="btn primary" @click="doSearch">查询</button></div><pre class="code" style="margin-top:12px">${JSON.stringify(search.results,null,2)}</pre></div><div class="card half"><h4>Archive Tree</h4><pre class="code">${JSON.stringify(archiveTree,null,2)}</pre></div><div class="card full"><h4>Project State</h4><pre class="code">${JSON.stringify(state,null,2)}</pre></div></div>
+      </template>
+
+      <template v-else-if="section==='layers'">
+        <page-title :title="currentTitle" :hint="currentHint"></page-title><div class="flow"><div class="step" v-for="(l,i) in layers"><b>${i+1}. ${l.cn}</b><div class="muted small">${l.name}</div><p class="small">${l.does}</p><div class="mono small">${l.source}</div></div></div>
+      </template>
+
+      <template v-else-if="section==='docs'">
+        <page-title :title="currentTitle" :hint="currentHint"></page-title><div class="card full"><h4>文档索引</h4><table class="table"><tr><th>组</th><th>标题</th><th>文件</th></tr><tr v-for="d in docs"><td>${d.group}</td><td>${d.title}</td><td class="mono">${d.path}</td></tr></table></div>
+      </template>
+    </main>
+  </div>
+</div>
+<script>
+const initialState = {{ initial_state | tojson }};
+const initialSection = {{ section | tojson }};
+const selectedTaskInitial = {{ selected_task | tojson }};
+const navInitial = {{ nav | tojson }};
+const { createApp, computed } = Vue;
+const app = createApp({
+  delimiters:['${','}'],
+  data(){return {section:initialSection, nav:navInitial, selectedTask:selectedTaskInitial, search:{q:'',bureau:'',task_type:'',results:[]}, ...initialState}},
+  computed:{
+    currentNav(){return this.nav.find(n=>n.key===this.section)||this.nav[0]}, currentTitle(){return this.currentNav.title}, currentHint(){return this.currentNav.hint},
+    taskStats(){const c={total:this.tasks.length,ready:0,prompted:0,done:0,blocked:0,failed:0}; this.tasks.forEach(t=>c[t.status]=(c[t.status]||0)+1); return c},
+    taskDistribution(){return (this.subject_work&&this.subject_work.task_distribution)||{}},
+    moduleContent(){return this.$data.module_content || {}},
+    contentDomains(){return ['memory','skills-core','skills-worker','context-units','hooks-runtime','mcp-rag','headless','sdk-adapters','templates'].map(k=>this.moduleContent[k]).filter(Boolean)},
+    contentTotal(){return this.contentDomains.reduce((s,d)=>s+(d.file_count||0),0)},
+    isContentSection(){return ['memory','skills-core','skills-worker','context-units','hooks-runtime','mcp-rag','headless','sdk-adapters','templates'].includes(this.section)},
+    archiveTree(){return this.$data.archive_tree || {}},
+  },
+  mounted(){document.body.classList.add('vue-ready'); setInterval(()=>this.refresh(false),2500)},
+  methods:{
+    async refresh(show=true){const r=await fetch('/api/state'); const d=await r.json(); Object.assign(this.$data,d); if(show) console.log('runtime refreshed')},
+    async doSearch(){const q=new URLSearchParams({q:this.search.q,bureau:this.search.bureau,task_type:this.search.task_type}); const r=await fetch('/api/search?'+q); const d=await r.json(); this.search.results=d.results||[]},
+    statusClass(s){return {done:s==='done',failed:s==='failed',blocked:s==='blocked'}},
+  }
+});
+app.component('stats-row',{props:['taskStats','contentTotal','hookCount'],delimiters:['${','}'],template:`<div class="stats"><div class="stat"><div class="k">Content Files</div><div class="v">${'${'}contentTotal}</div></div><div class="stat"><div class="k">Tasks</div><div class="v">${'${'}taskStats.total}</div></div><div class="stat"><div class="k">Ready</div><div class="v">${'${'}taskStats.ready}</div></div><div class="stat"><div class="k">Prompted</div><div class="v">${'${'}taskStats.prompted}</div></div><div class="stat"><div class="k">Done</div><div class="v">${'${'}taskStats.done}</div></div><div class="stat"><div class="k">Hooks</div><div class="v">${'${'}hookCount}</div></div></div>`});
+app.component('page-title',{props:['title','hint'],delimiters:['${','}'],template:`<div class="section-head"><div><h3>${'${'}title}</h3><p>${'${'}hint}</p></div></div>`});
+app.component('domain-card',{props:['domain'],delimiters:['${','}'],template:`<a class="content-card" :href="'/' + domain.key" :style="{'--accent-local':domain.accent}"><span class="pill">${'${'}domain.root}</span><h4>${'${'}domain.title}</h4><div class="excerpt">${'${'}domain.file_count} 个内容文件 · ${'${'}domain.task_count} 个相关任务<br>ready ${'${'}domain.ready} / prompted ${'${'}domain.prompted} / done ${'${'}domain.done}</div></a>`});
+app.component('content-page',{props:['domain','section'],delimiters:['${','}'],template:`<div><div class="section-head"><div><h3>${'${'}domain.title}</h3><p>目录：<span class="mono">${'${'}domain.root}</span> · 模块内容 + 相关 agent 工作流</p></div><a class="btn" href="/tasks">查看任务流</a></div><div class="grid"><div class="card large"><h4>内容文件</h4><div v-if="domain.files.length" class="content-grid"><div class="content-card" v-for="f in domain.files" :style="{'--accent-local':domain.accent}"><span class="pill">${'${'}f.kind}</span><h4>${'${'}f.name}</h4><div class="mono small muted">${'${'}f.path}</div><div class="excerpt" style="margin-top:10px">${'${'}f.excerpt || '空文件 / 等待填充'}</div></div></div><div v-else class="empty"><h4>还没有内容文件</h4><p>把模块说明、协议、模板、skill 写入 <span class="mono">${'${'}domain.root}</span> 后会自动出现在这里。</p></div></div><div class="card"><h4>相关 Agent 工作</h4><task-list :items="domain.tasks"></task-list></div></div></div>`});
+app.component('task-list',{props:['items'],delimiters:['${','}'],template:`<div><div v-if="!items || !items.length" class="empty">暂无任务</div><div v-for="t in items" class="task-row"><span class="status" :class="{done:t.status==='done',failed:t.status==='failed',blocked:t.status==='blocked'}">${'${'}t.status}</span><div><a class="mono" :href="'/tasks/'+encodeURIComponent(t.task_id)">${'${'}t.task_id}</a><div>${'${'}t.title}</div><div class="muted small">${'${'}t.worker} · ${'${'}t.bureau || ''}</div></div><div class="pills"><span class="pill" v-for="out in (t.required_outputs||[]).slice(0,1)">${'${'}out}</span></div></div></div>`});
+app.component('task-report',{props:['task'],delimiters:['${','}'],template:`<div class="grid"><div class="card full"><h4>单任务报告</h4><table class="table"><tr><th>任务</th><td class="mono">${'${'}task.task_id}</td></tr><tr><th>状态</th><td><span class="status" :class="{done:task.status==='done',failed:task.status==='failed',blocked:task.status==='blocked'}">${'${'}task.status}</span></td></tr><tr><th>目标</th><td>${'${'}task.objective}</td></tr><tr><th>上游请求</th><td>${'${'}task.upstream?.parent_request || task.context}</td></tr><tr><th>worker</th><td>${'${'}task.worker} · ${'${'}task.bureau}</td></tr></table></div><div class="card full"><h4>上游 → 下游链路</h4><div class="flow"><div class="step" v-for="(s,i) in task.flow"><b>${'${'}i+1}. ${'${'}s.stage}</b><div class="muted small">${'${'}s.unit}</div><p class="small">${'${'}s.agent}</p><div class="mono small">${'${'}s.evidence}</div></div></div></div><div class="card half"><h4>验收 / 输出</h4><div class="pills"><span class="pill" v-for="g in task.downstream?.gates">${'${'}g}</span></div><ul><li v-for="o in task.downstream?.required_outputs" class="mono">${'${'}o}</li></ul></div><div class="card half"><h4>生命周期</h4><pre class="code">${'${'}JSON.stringify(task.lifecycle,null,2)}</pre></div></div>`});
+app.mount('#app');
+</script>
+</body>
+</html>

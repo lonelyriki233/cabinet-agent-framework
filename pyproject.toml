@@ -1,0 +1,8 @@
+[project]
+name = "cabinet-agent-framework"
+version = "0.1.0"
+description = "Portable cabinet-style multi-agent framework runtime for Hermes, Codex, Claude Code, OpenClaw and generic CLI agents."
+requires-python = ">=3.10"
+
+[project.scripts]
+caf = "cabinet_framework.cli:main"

@@ -1,0 +1,7 @@
+{
+  "mode": "prompt",
+  "cycles": 3,
+  "sleep_seconds": 60,
+  "stop_on_blocked": true,
+  "dashboard_url": "http://127.0.0.1:8788/overview"
+}

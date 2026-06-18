@@ -1,0 +1,6 @@
+{
+  "name": "cabinet_keyword_index",
+  "version": "0.1.0",
+  "record": {"path": "string", "token_count": "integer", "top_terms": ["string"]},
+  "future_backends": ["sqlite-fts", "chroma", "lancedb", "faiss", "external-mcp-server"]
+}

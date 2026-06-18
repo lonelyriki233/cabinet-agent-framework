@@ -1,0 +1,10 @@
+{
+  "task_id": "T-example",
+  "task_type": "sdk_adapter",
+  "worker": "sdk_adapter_worker",
+  "bureau": "works_ministry",
+  "objective": "Design a host adapter",
+  "allowed_paths": ["adapters/"],
+  "forbidden_paths": [".env", "auth.json"],
+  "required_outputs": ["runtime/outputs/T-example.md"]
+}
