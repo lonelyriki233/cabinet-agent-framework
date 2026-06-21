@@ -38,6 +38,8 @@ WORKER_TO_BUREAU = {
     "domain_template_worker": "works_ministry",
     "documentation_worker": "ritual_ministry",
     "research_worker": "finance_ministry",
+    "skill_forge_worker": "ritual_ministry",
+    "autonomous_dispatch_worker": "war_ministry",
 }
 
 TASK_TOKEN_BUDGETS = {
@@ -54,11 +56,15 @@ TASK_TOKEN_BUDGETS = {
     "domain_template": {"max_turns": 50, "fast_path": True, "full_council": False},
     "docs": {"max_turns": 35, "fast_path": True, "full_council": False},
     "research": {"max_turns": 45, "fast_path": True, "full_council": False},
+    "skill_forge": {"max_turns": 55, "fast_path": True, "full_council": True},
+    "autonomous": {"max_turns": 80, "fast_path": True, "full_council": True},
 }
 
 AUDIT_STRATEGY = {k: "end" for k in TASK_TOKEN_BUDGETS}
 AUDIT_STRATEGY["docs"] = "full"
 AUDIT_STRATEGY["research"] = "skip"
+AUDIT_STRATEGY["skill_forge"] = "full"
+AUDIT_STRATEGY["autonomous"] = "full"
 
 COUNCILLOR_ACTIVATION = {
     "strategy": {"prime_minister", "memory", "skill", "runtime", "interop", "tooling", "risk"},
@@ -74,6 +80,8 @@ COUNCILLOR_ACTIVATION = {
     "domain_template": {"prime_minister", "tooling", "skill"},
     "docs": {"skill", "risk"},
     "research": {"tooling", "interop"},
+    "skill_forge": {"prime_minister", "skill", "runtime", "risk"},
+    "autonomous": {"prime_minister", "skill", "runtime", "risk", "tooling"},
 }
 ORDER = ["prime_minister", "memory", "skill", "runtime", "interop", "tooling", "risk"]
 

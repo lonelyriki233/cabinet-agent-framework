@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "forge_skills": {
+    "forge-music-writing": {
+      "version": 1,
+      "domain": "writing",
+      "task_types": [
+        "music",
+        "writing"
+      ],
+      "worker": "music_composer_worker",
+      "description": "Auto-forged writing skill for music tasks (music_composer_worker)",
+      "created_at": "20260621-101755",
+      "iteration_count": 0,
+      "usage_count": 0
+    },
+    "forge-strategy-code": {
+      "version": 1,
+      "domain": "code",
+      "task_types": [
+        "strategy",
+        "code"
+      ],
+      "worker": "cabinet_strategy_worker",
+      "description": "Auto-forged code skill for strategy tasks (cabinet_strategy_worker)",
+      "created_at": "20260621-101847",
+      "iteration_count": 0,
+      "usage_count": 0
+    }
+  },
+  "last_updated": "20260621-101847"
+}

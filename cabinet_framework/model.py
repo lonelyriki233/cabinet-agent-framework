@@ -39,6 +39,8 @@ WORKERS = {
     "domain_template_worker": "把框架套到数据平台、小说/OC/IP、研究、工程等子项目",
     "documentation_worker": "README、架构说明、GitHub 作品集文档、真实能力边界",
     "research_worker": "外部参考、竞品/趋势、兼容性调研和方案取舍",
+    "skill_forge_worker": "SkillForge：当可用 skill 不足时自动发现、调研、创建、注册新 skill",
+    "autonomous_dispatch_worker": "自主调度器：自动 intake → dispatch → audit 的全链路绑定",
 }
 
 TASK_TYPE_KEYWORDS = {
@@ -55,6 +57,8 @@ TASK_TYPE_KEYWORDS = {
     "domain_template": ["子工程", "模板", "平台", "小说", "oc", "ip", "数据平台"],
     "docs": ["文档", "readme", "说明", "交付", "上传"],
     "research": ["调研", "参考", "竞品", "比较", "未知"],
+    "skill_forge": ["skill", "forge", "创建skill", "技能", "新领域", "不会做", "没有skill"],
+    "autonomous": ["自动", "调度", "auto", "intake", "全链路", "自主"],
 }
 
 TASK_TO_WORKER = {
@@ -71,6 +75,8 @@ TASK_TO_WORKER = {
     "domain_template": "domain_template_worker",
     "docs": "documentation_worker",
     "research": "research_worker",
+    "skill_forge": "skill_forge_worker",
+    "autonomous": "autonomous_dispatch_worker",
 }
 
 AUTORESEARCH_KEYWORDS = ["调研", "参考", "兼容", "codex", "claude", "openclaw", "mcp", "sdk", "github", "求职"]

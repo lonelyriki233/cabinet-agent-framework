@@ -12,6 +12,8 @@ from .dashboard import serve as dashboard_serve
 from .archive import search as archive_search, tree_view as archive_tree
 from .conversation_bridge import register_conversation_request
 from .hooks import recent_events, lifecycle_for
+from .autonomous_worker import auto_intake, iterate_from_feedback, get_autonomous_status
+from .skill_forge import SkillForge, list_all_skills
 
 
 def cmd_init(args): ensure_runtime(); print("caf init: PASS")
@@ -55,6 +57,44 @@ def cmd_chat_intake(args):
 def cmd_hooks(args):
     ensure_runtime(); import json; print(json.dumps(lifecycle_for(args.task_id) if args.task_id else recent_events(args.limit), ensure_ascii=False, indent=2))
 
+def cmd_forge(args):
+    ensure_runtime()
+    forge = SkillForge()
+    result = forge.forge_skill(
+        worker_name=args.worker or "unknown",
+        task_type=args.task_type or "general",
+        task_title=args.title or args.request,
+        request=args.request,
+    )
+    import json; print(json.dumps({
+        "skill_name": result.get("skill_name"),
+        "skill_path": result.get("skill_path"),
+        "existing": result.get("existing", False),
+    }, ensure_ascii=False, indent=2))
+
+def cmd_forge_list(args):
+    ensure_runtime()
+    import json; print(json.dumps(list_all_skills(), ensure_ascii=False, indent=2))
+
+def cmd_forge_iterate(args):
+    ensure_runtime()
+    import json; result = iterate_from_feedback(args.task_id, args.feedback, improve_skill=not args.no_improve)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+def cmd_auto(args):
+    ensure_runtime()
+    import json; result = auto_intake(args.request, authority=args.authority, source=args.source, force_forge=args.force_forge)
+    print(json.dumps({
+        "stages": [s.get("stage") for s in result.get("stages", [])],
+        "task_ids": result.get("task_ids", []),
+        "skills_created": result.get("skills_created", []),
+        "error": result.get("error"),
+    }, ensure_ascii=False, indent=2))
+
+def cmd_auto_status(args):
+    ensure_runtime()
+    import json; print(json.dumps(get_autonomous_status(), ensure_ascii=False, indent=2))
+
 def main():
     parser = argparse.ArgumentParser(prog="caf", description="Cabinet Agent Framework: portable multi-agent runtime for Hermes/Codex/Claude Code/OpenClaw")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -71,6 +111,13 @@ def main():
     p = sub.add_parser("dashboard"); p.add_argument("--host", default="127.0.0.1"); p.add_argument("--port", type=int, default=8788)
     p = sub.add_parser("archive-search"); p.add_argument("--query", required=True); p.add_argument("--bureau", default=""); p.add_argument("--task-type", default=""); p.add_argument("--top-k", type=int, default=5)
     p = sub.add_parser("hooks"); p.add_argument("--task-id", default=""); p.add_argument("--limit", type=int, default=50)
+    # forge
+    p = sub.add_parser("forge"); p.add_argument("--request", required=True); p.add_argument("--worker", default=""); p.add_argument("--task-type", default=""); p.add_argument("--title", default="")
+    p = sub.add_parser("forge-list")
+    p = sub.add_parser("forge-iterate"); p.add_argument("--task-id", required=True); p.add_argument("--feedback", required=True); p.add_argument("--no-improve", action="store_true")
+    # auto
+    p = sub.add_parser("auto"); p.add_argument("--request", required=True); p.add_argument("--authority", choices=["L0","L1","L2","L3","L4"], default="L2"); p.add_argument("--source", default="hermes_cli"); p.add_argument("--force-forge", action="store_true")
+    p = sub.add_parser("auto-status")
     sub.add_parser("archive-tree"); sub.add_parser("gate")
-    args = parser.parse_args(); {"init":cmd_init,"intake":cmd_intake,"chat-intake":cmd_chat_intake,"status":cmd_status,"tasks":cmd_tasks,"prompt":cmd_prompt,"run":cmd_run,"command":cmd_command,"tick":cmd_tick,"dispatch":cmd_dispatch,"heartbeat":cmd_heartbeat,"dashboard":cmd_dashboard,"archive-search":cmd_archive_search,"hooks":cmd_hooks,"archive-tree":cmd_archive_tree,"gate":cmd_gate}[args.cmd](args)
+    args = parser.parse_args(); {"init":cmd_init,"intake":cmd_intake,"chat-intake":cmd_chat_intake,"status":cmd_status,"tasks":cmd_tasks,"prompt":cmd_prompt,"run":cmd_run,"command":cmd_command,"tick":cmd_tick,"dispatch":cmd_dispatch,"heartbeat":cmd_heartbeat,"dashboard":cmd_dashboard,"archive-search":cmd_archive_search,"hooks":cmd_hooks,"forge":cmd_forge,"forge-list":cmd_forge_list,"forge-iterate":cmd_forge_iterate,"auto":cmd_auto,"auto-status":cmd_auto_status,"archive-tree":cmd_archive_tree,"gate":cmd_gate}[args.cmd](args)
 if __name__ == "__main__": main()

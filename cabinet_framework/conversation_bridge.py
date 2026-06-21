@@ -1,3 +1,5 @@
+"""Conversation bridge: Hermes chat → framework runtime with auto-dispatch support."""
+
 from __future__ import annotations
 from dataclasses import asdict
 
@@ -7,12 +9,12 @@ from .governance import convene_strategy_council, relay_mandate, WORKER_TO_BUREA
 from .model import TASKS, read_json, write_json, ensure_runtime, STATE
 
 
-def register_conversation_request(request: str, authority: str = "L2", source: str = "hermes_chat") -> dict:
+def register_conversation_request(request: str, authority: str = "L2", source: str = "hermes_chat",
+                                   auto_dispatch: bool = False) -> dict:
     """Register an actionable chat request into the framework runtime.
 
     This is the bridge between normal Hermes conversation and the dashboard.
-    If the agent receives an actionable user task while operating in this project,
-    it should call this before doing the work so the task appears in the dashboard.
+    If auto_dispatch is True, it will also trigger the autonomous worker pipeline.
     """
     ensure_runtime()
     decision = classify_request(request)
@@ -31,6 +33,7 @@ def register_conversation_request(request: str, authority: str = "L2", source: s
         "council": council.to_dict(),
         "mandate": mandate.to_dict(),
         "created_tasks": [],
+        "auto_dispatched": False,
     }
     if not mandate.approved:
         state = read_json(STATE / "project.json", {}) or {}
@@ -50,4 +53,19 @@ def register_conversation_request(request: str, authority: str = "L2", source: s
             data["bureau"] = WORKER_TO_BUREAU.get(t.worker, "unknown_bureau")
             write_json(p, data)
             result["created_tasks"].append(data)
+
+    # Auto-dispatch via autonomous worker if requested
+    if auto_dispatch and result["created_tasks"]:
+        try:
+            from .autonomous_worker import auto_intake
+            # Re-use the same intake with auto mode
+            auto_result = auto_intake(request, authority=authority, source=source)
+            result["auto_dispatched"] = True
+            result["auto_result"] = {
+                "skills_created": auto_result.get("skills_created", []),
+                "stages": len(auto_result.get("stages", [])),
+            }
+        except Exception as e:
+            result["auto_error"] = str(e)[:200]
+
     return result
