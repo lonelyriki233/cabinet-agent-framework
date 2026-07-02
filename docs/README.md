@@ -5,6 +5,9 @@
 - core/MEMORY_SYSTEM.md — 内阁-六部记忆系统
 - core/SKILL_LAYERS.md — thinking skills / worker skills 分离
 - core/CONTEXT_UNITS.md — 智能体上下文单元
+- core/GATE_SYSTEM.md — Project Harness 阶段验收门
+- core/LIFECYCLE_GATE.md — Gate 接入任务生命周期，失败阻塞并生成返工任务
+- core/CONTEXT_MEMORY_ENGINE.md — Context Pack / MemoryObject 召回
 - ../integrations/HOST_ADAPTERS.md — Hermes/Codex/Claude Code/OpenClaw 适配
 - ../integrations/HERMES_ATTRIBUTION.md — Hermes 机制来源声明
 - ../integrations/MCP_RAG.md — MCP/RAG 扩展层

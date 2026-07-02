@@ -18,6 +18,11 @@ runtime/audits/*
 runtime/reports/*
 runtime/outputs/*
 runtime/rag/*
+runtime/project_harness/*
+runtime/capability/*
+runtime/parametric_memory/*
+runtime/memory_objects.jsonl
+runtime/tool_contracts.jsonl
 !runtime/README.md
 !runtime/.gitkeep
 !runtime/state/.gitkeep
@@ -45,6 +50,7 @@ Thumbs.db
 .idea/
 
 # Build artifacts
+node_modules/
 dist/
 build/
 *.zip
